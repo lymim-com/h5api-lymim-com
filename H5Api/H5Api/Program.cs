@@ -36,6 +36,9 @@ namespace H5Api
             #region Sticky
 
             var stickyConnectionString = builder.Configuration["ConnectionStrings:stickyConnection"];
+            // 上面的读取没起作用，暂时直接读文件
+            if (File.Exists("./secretConnectionString.txt"))
+                stickyConnectionString = File.ReadAllText("./secretConnectionString.txt");
             builder.Services.AddDbContext<StickyContext>(optionsBuilder =>
                 optionsBuilder.UseMySql(stickyConnectionString, ServerVersion.AutoDetect(stickyConnectionString)));
 
