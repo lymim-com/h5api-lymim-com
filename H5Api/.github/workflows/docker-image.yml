@@ -1,0 +1,36 @@
+
+  name: Docker Image CI
+
+  on:
+    push:
+      branches: [ "master" ]
+    pull_request:
+      branches: [ "master" ]
+
+  jobs:
+
+    build:
+
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore H5Api/H5Api.sln
+      - name: Build app
+        run: |
+          dotnet publish H5Api/H5Api.sln --no-restore
+          echo $(ls -1 .)
+      - name: Build the Docker image
+        run: |
+          docker build -t lymims/h5-api -f H5Api/H5Api/Dockerfile .
+          echo $(ls -1 .)
+      - name: Login to Registry
+        run: docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_TOKEN }}
+      - name: Push Image
+        run: |
+          docker push lymims/h5-api
