@@ -68,6 +68,7 @@ namespace H5Api
                         Summary = summaries[Random.Shared.Next(summaries.Length)]
                     })
                     .ToArray();
+                forecast.Last().Summary = "Happy day!!!";
                 return forecast;
             });
 
