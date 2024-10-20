@@ -25,6 +25,7 @@ namespace H5Api
                     builder
                         .WithOrigins(
                             "http://h5.lymim.com",
+                            "https://h5.lymim.com",
                             "http://localhost:5272")
                         .AllowAnyMethod()
                         .AllowAnyHeader();
@@ -36,7 +37,7 @@ namespace H5Api
             #region Sticky
 
             var stickyConnectionString = builder.Configuration["ConnectionStrings:stickyConnection"];
-            // ÉÏÃæµÄ¶ÁÈ¡Ã»Æğ×÷ÓÃ£¬ÔİÊ±Ö±½Ó¶ÁÎÄ¼ş
+            // ä¸Šé¢çš„è¯»å–æ²¡èµ·ä½œç”¨ï¼Œæš‚æ—¶ç›´æ¥è¯»æ–‡ä»¶
             if (File.Exists("./secretConnectionString.txt"))
                 stickyConnectionString = File.ReadAllText("./secretConnectionString.txt");
             builder.Services.AddDbContext<StickyContext>(optionsBuilder =>
